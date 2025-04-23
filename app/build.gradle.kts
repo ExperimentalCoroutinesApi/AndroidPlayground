@@ -40,6 +40,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":cheatsheets"))
+
+    implementation(libs.dagger.android)
+    implementation(libs.dagger.android.support)
+    annotationProcessor(libs.dagger.android.processor)
+
+    implementation(libs.okhttp)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -50,6 +57,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

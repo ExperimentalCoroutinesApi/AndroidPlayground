@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidPlayground"
 include(":app")
- 
+include(":cheatsheets")

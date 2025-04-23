@@ -17,13 +17,13 @@
         android:theme="@style/Theme.AndroidPlayground"
         tools:targetApi="31">
         <service
-            android:name=".backgroundwork.service.ForegroundService"
+            android:name="com.example.cheatsheets.cheatsheets.backgroundwork.service.ForegroundService"
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="dataSync" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AndroidPlayground">
