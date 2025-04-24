@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":cheatsheets"))
+    //implementation(project(":cheatsheets"))
 
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)

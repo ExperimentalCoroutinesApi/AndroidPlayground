@@ -13,16 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.delay
 
-@Composable
-fun MainUI(
-    modifier: Modifier = Modifier
-) {
-    val i by produceState(initialValue = "WOW") {
-        delay(1000)
-        value = "Oh...."
-    }
-    RememberUpdatedStateTest1(i)
-}
+
 
 @Composable
 fun RememberUpdatedStateTest1(s: String) {
