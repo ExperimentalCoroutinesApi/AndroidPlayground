@@ -62,159 +62,159 @@ fun LaunchedEffectTest() { // 2
     }
 }
 
-@Composable
-fun RememberCoroutineScopeTest() { // 3
-
-    //val scope = rememberCoroutineScope()
-
-    Scaffold(
-        snackbarHost = {
-            //SnackbarHost(hostState = snackbarHostState)
-        }
-    ) { contentPadding ->
-        Column(Modifier.padding(contentPadding)) {
-            Button(
-                onClick = {
-                    // Create a new coroutine in the event handler to show a snackbar
-                    //scope.launch {
-                        //snackbarHostState.showSnackbar("Something happened!")
-                    //}
-                }
-            ) {
-                Text("Press me")
-            }
-        }
-    }
-}
-
-
 //@Composable
-//fun DisposableEffectTest( // 4
-//    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-//    onStart: () -> Unit, // Send the 'started' analytics event
-//    onStop: () -> Unit // Send the 'stopped' analytics event
-//) {
-//    // Safely update the current lambdas when a new one is provided
-//    val currentOnStart by rememberUpdatedState(onStart)
-//    val currentOnStop by rememberUpdatedState(onStop)
+//fun RememberCoroutineScopeTest() { // 3
 //
-//    // If `lifecycleOwner` changes, dispose and reset the effect
-//    DisposableEffect(lifecycleOwner) {
-//        // Create an observer that triggers our remembered callbacks
-//        // for sending analytics events
-//        val observer = LifecycleEventObserver { _, event ->
-//            if (event == Lifecycle.Event.ON_START) {
-//                currentOnStart()
-//            } else if (event == Lifecycle.Event.ON_STOP) {
-//                currentOnStop()
+//    //val scope = rememberCoroutineScope()
+//
+//    Scaffold(
+//        snackbarHost = {
+//            //SnackbarHost(hostState = snackbarHostState)
+//        }
+//    ) { contentPadding ->
+//        Column(Modifier.padding(contentPadding)) {
+//            Button(
+//                onClick = {
+//                    // Create a new coroutine in the event handler to show a snackbar
+//                    //scope.launch {
+//                        //snackbarHostState.showSnackbar("Something happened!")
+//                    //}
+//                }
+//            ) {
+//                Text("Press me")
 //            }
 //        }
-//
-//        // Add the observer to the lifecycle
-//        lifecycleOwner.lifecycle.addObserver(observer)
-//
-//        // When the effect leaves the Composition, remove the observer
-//        onDispose {
-//            lifecycleOwner.lifecycle.removeObserver(observer)
-//        }
 //    }
-//
-//    /* Home screen content */
 //}
 
-/**
- * You should use the derivedStateOf function when your inputs to a composable are changing
- * more often than you need to recompose.
- *
- * Caution: derivedStateOf is expensive, and you should only use it to avoid unnecessary
- * recomposition when a result hasn't changed.
- */
-@Composable
-fun DerivedStateOfTest() { // 5
-    val listState by remember { mutableStateOf(listOf(1)) }
-    val showButton by remember {
-        derivedStateOf {
-            listState.first() > 0
-        }
-    }
-}
 
-/**
- * Use snapshotFlow to convert State<T> objects into a cold Flow. snapshotFlow runs
- * its block when collected and emits the result of the State objects read in it.
- */
-@Composable
-fun SnapshotFlowTest() { // 6
-
-    val listState = rememberLazyListState()
-
-    LazyColumn(state = listState) {
-        // ...
-    }
-
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index -> index > 0 }
-            .distinctUntilChanged()
-            .filter { it }
-            .collect {
-                //MyAnalyticsService.sendScrolledPastFirstItemEvent()
-            }
-    }
-}
-
-/**
- * produceState launches a coroutine scoped to the Composition that can push values into a
- * returned State. Use it to convert non-Compose state into Compose state
- */
-@Composable
-fun ProduceStateTest() { // 7
-
-    val message by produceState(
-        initialValue = "initial text"
-    ) {
-        delay(2000)
-        value = "hello!"
-    } // = LaunchedEffect + remembered value
-
-    Text(text = message)
-} // Basically you can make remember { mutableState } and update it from LaunchedEffect
-
-
-/**
- * LaunchedEffect restarts when one of the key parameters changes. However, in some situations
- * you might want to capture a value in your effect that, if it changes, you do not want the
- * effect to restart. In order to do this, it is required to use rememberUpdatedState to create
- * a reference to this value which can be captured and updated. This approach is helpful for
- * effects that contain long-lived operations that may be expensive or prohibitive to recreate
- * and restart.
- */
-@Composable
-fun MainUI() {
-    val i by produceState(initialValue = "Initial value") {
-        delay(1000)
-        value = "Oh.... This value never came"
-    }
-    RememberUpdatedStateTest1(i)
-}
-
-@Composable
-fun RememberUpdatedStateTest1(s: String) { // 8
-
-    LaunchedEffect(Unit) {
-        delay(2000)
-        println(s)
-    }
-}
-
-// Switch to
-
-@Composable
-fun RememberUpdatedStateTest2(s: String) { // 8
-
-    val coolStuff by rememberUpdatedState(newValue = s)
-    LaunchedEffect(Unit) {
-        delay(2000)
-        println(s) // now we will see "Oh.... This value never came"
-    }
-}
+////@Composable
+////fun DisposableEffectTest( // 4
+////    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+////    onStart: () -> Unit, // Send the 'started' analytics event
+////    onStop: () -> Unit // Send the 'stopped' analytics event
+////) {
+////    // Safely update the current lambdas when a new one is provided
+////    val currentOnStart by rememberUpdatedState(onStart)
+////    val currentOnStop by rememberUpdatedState(onStop)
+////
+////    // If `lifecycleOwner` changes, dispose and reset the effect
+////    DisposableEffect(lifecycleOwner) {
+////        // Create an observer that triggers our remembered callbacks
+////        // for sending analytics events
+////        val observer = LifecycleEventObserver { _, event ->
+////            if (event == Lifecycle.Event.ON_START) {
+////                currentOnStart()
+////            } else if (event == Lifecycle.Event.ON_STOP) {
+////                currentOnStop()
+////            }
+////        }
+////
+////        // Add the observer to the lifecycle
+////        lifecycleOwner.lifecycle.addObserver(observer)
+////
+////        // When the effect leaves the Composition, remove the observer
+////        onDispose {
+////            lifecycleOwner.lifecycle.removeObserver(observer)
+////        }
+////    }
+////
+////    /* Home screen content */
+////}
+//
+///**
+// * You should use the derivedStateOf function when your inputs to a composable are changing
+// * more often than you need to recompose.
+// *
+// * Caution: derivedStateOf is expensive, and you should only use it to avoid unnecessary
+// * recomposition when a result hasn't changed.
+// */
+//@Composable
+//fun DerivedStateOfTest() { // 5
+//    val listState by remember { mutableStateOf(listOf(1)) }
+//    val showButton by remember {
+//        derivedStateOf {
+//            listState.first() > 0
+//        }
+//    }
+//}
+//
+///**
+// * Use snapshotFlow to convert State<T> objects into a cold Flow. snapshotFlow runs
+// * its block when collected and emits the result of the State objects read in it.
+// */
+//@Composable
+//fun SnapshotFlowTest() { // 6
+//
+//    val listState = rememberLazyListState()
+//
+//    LazyColumn(state = listState) {
+//        // ...
+//    }
+//
+//    LaunchedEffect(listState) {
+//        snapshotFlow { listState.firstVisibleItemIndex }
+//            .map { index -> index > 0 }
+//            .distinctUntilChanged()
+//            .filter { it }
+//            .collect {
+//                //MyAnalyticsService.sendScrolledPastFirstItemEvent()
+//            }
+//    }
+//}
+//
+///**
+// * produceState launches a coroutine scoped to the Composition that can push values into a
+// * returned State. Use it to convert non-Compose state into Compose state
+// */
+//@Composable
+//fun ProduceStateTest() { // 7
+//
+//    val message by produceState(
+//        initialValue = "initial text"
+//    ) {
+//        delay(2000)
+//        value = "hello!"
+//    } // = LaunchedEffect + remembered value
+//
+//    Text(text = message)
+//} // Basically you can make remember { mutableState } and update it from LaunchedEffect
+//
+//
+///**
+// * LaunchedEffect restarts when one of the key parameters changes. However, in some situations
+// * you might want to capture a value in your effect that, if it changes, you do not want the
+// * effect to restart. In order to do this, it is required to use rememberUpdatedState to create
+// * a reference to this value which can be captured and updated. This approach is helpful for
+// * effects that contain long-lived operations that may be expensive or prohibitive to recreate
+// * and restart.
+// */
+//@Composable
+//fun MainUI() {
+//    val i by produceState(initialValue = "Initial value") {
+//        delay(1000)
+//        value = "Oh.... This value never came"
+//    }
+//    RememberUpdatedStateTest1(i)
+//}
+//
+//@Composable
+//fun RememberUpdatedStateTest1(s: String) { // 8
+//
+//    LaunchedEffect(Unit) {
+//        delay(2000)
+//        println(s)
+//    }
+//}
+//
+//// Switch to
+//
+//@Composable
+//fun RememberUpdatedStateTest2(s: String) { // 8
+//
+//    val coolStuff by rememberUpdatedState(newValue = s)
+//    LaunchedEffect(Unit) {
+//        delay(2000)
+//        println(s) // now we will see "Oh.... This value never came"
+//    }
+//}

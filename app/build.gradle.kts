@@ -44,6 +44,8 @@ dependencies {
 
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.kotlinx.collections.immutable)
     annotationProcessor(libs.dagger.android.processor)
 
     implementation(libs.okhttp)
