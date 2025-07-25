@@ -215,6 +215,6 @@ fun LaunchedEffectTest() { // 2
 //    val coolStuff by rememberUpdatedState(newValue = s)
 //    LaunchedEffect(Unit) {
 //        delay(2000)
-//        println(s) // now we will see "Oh.... This value never came"
+//        println(coolStuff) // now we will see "Oh.... This value never came"
 //    }
 //}
