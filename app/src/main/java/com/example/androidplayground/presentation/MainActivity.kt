@@ -134,9 +134,28 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
     }
 }
 
 const val ELEMENTS_COUNT = 34
 
 data class GridItem(val width: Dp, val color: Color)
+
+
+fun mySolution(t: String, l: IntArray): IntArray {
+
+    val freq = mutableMapOf<Char, Int>()
+
+    for (i in t) {
+        freq[i] = freq.getOrDefault(i, 0) + 1
+    }
+
+    val rev = t.reversed()
+
+    val srt = l.sorted()
+
+    val srt2 = l.sortDescending()
+
+    return intArrayOf(1,3)
+}
